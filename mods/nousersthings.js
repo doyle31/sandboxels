@@ -358,14 +358,14 @@ elements.destroyable_pipe = {
                 var y = pixel.y+coord[1];
                 if (!isEmpty(x,y,true)) {
                     var newPixel = pixelMap[x][y];
-                    if (newPixel.element === "destroyable_pipe" || newPixel.element === "bridge_pipe") {
+                    if (newPixel.element === "destroyable_pipe" || newPixel.element === "bridge_pipe" || newPixel.element === "pipe_transmitter") {
                         var nextStage;
                         switch (pixel.stage) {
                             case 2: nextStage = 4; break; //green
                             case 3: nextStage = 2; break; //red
                             case 4: nextStage = 3; break; //blue
                         }
-                        if (pixel.con && !newPixel.con && newPixel.stage === nextStage) { //transfer to adjacent pipe
+                        if (pixel.con && !newPixel.con && (newPixel.stage === nextStage || newPixel.element === "pipe_transmitter")) { //transfer to adjacent pipe
                             newPixel.con = pixel.con;
                             newPixel.con.x = newPixel.x;
                             newPixel.con.y = newPixel.y;
@@ -625,7 +625,7 @@ elements.e_pipe = {
                 var x = pixel.x+coord[0];
                 var y = pixel.y+coord[1];
                 if (isEmpty(x,y)) {
-                    createPixel("brick",x,y);
+                    createPixel("pipe_wall",x,y);
                     pixelMap[x][y].color = pixelColorPick(pixel,"#808080");
                 }
             }
@@ -669,14 +669,14 @@ elements.e_pipe = {
                 var y = pixel.y+coord[1];
                 if (!isEmpty(x,y,true)) {
                     var newPixel = pixelMap[x][y];
-                    if (newPixel.element === "e_pipe" || newPixel.element === "bridge_pipe") {
+                    if (newPixel.element === "e_pipe" || newPixel.element === "bridge_pipe" || newPixel.element === "pipe_transmitter") {
                         var nextStage;
                         switch (pixel.stage) {
                             case 2: nextStage = 4; break; //green
                             case 3: nextStage = 2; break; //red
                             case 4: nextStage = 3; break; //blue
                         }
-                        if (pixel.con && !newPixel.con && newPixel.stage === nextStage && (pixel.charge || pixel.chargeCD)) { //transfer to adjacent pipe
+                        if (pixel.con && !newPixel.con && (newPixel.stage === nextStage || newPixel.element === "pipe_transmitter") && (pixel.charge || pixel.chargeCD)) { //transfer to adjacent pipe
                             newPixel.con = pixel.con;
                             newPixel.con.x = newPixel.x;
                             newPixel.con.y = newPixel.y;
@@ -787,14 +787,14 @@ elements.destroyable_e_pipe = {
                 var y = pixel.y+coord[1];
                 if (!isEmpty(x,y,true)) {
                     var newPixel = pixelMap[x][y];
-                    if (newPixel.element === "destroyable_e_pipe" || newPixel.element === "bridge_pipe") {
+                    if (newPixel.element === "destroyable_e_pipe" || newPixel.element === "bridge_pipe" || newPixel.element === "pipe_transmitter") {
                         var nextStage;
                         switch (pixel.stage) {
                             case 2: nextStage = 4; break; //green
                             case 3: nextStage = 2; break; //red
                             case 4: nextStage = 3; break; //blue
                         }
-                        if (pixel.con && !newPixel.con && newPixel.stage === nextStage && (pixel.charge || pixel.chargeCD)) { //transfer to adjacent pipe
+                        if (pixel.con && !newPixel.con && (newPixel.stage === nextStage || newPixel.element === "pipe_transmitter") && (pixel.charge || pixel.chargeCD)) { //transfer to adjacent pipe
                             newPixel.con = pixel.con;
                             newPixel.con.x = newPixel.x;
                             newPixel.con.y = newPixel.y;
@@ -870,7 +870,7 @@ elements.channel_pipe = {
                 var x = pixel.x+coord[0];
                 var y = pixel.y+coord[1];
                 if (isEmpty(x,y)) {
-                    createPixel("brick",x,y);
+                    createPixel("pipe_wall",x,y);
                     pixelMap[x][y].color = pixelColorPick(pixel,"#808080");
                 }
             }
@@ -914,14 +914,14 @@ elements.channel_pipe = {
                 var y = pixel.y+coord[1];
                 if (!isEmpty(x,y,true)) {
                     var newPixel = pixelMap[x][y];
-                    if ((newPixel.element === "channel_pipe" && pixelMap[x][y].channel == pixel.channel || newPixel.element === "bridge_pipe")) {
+                    if ((newPixel.element === "channel_pipe" && pixelMap[x][y].channel == pixel.channel || newPixel.element === "bridge_pipe" || (newPixel.element === "pipe_transmitter" && pixelMap[x][y].channel == pixel.channel))) {
                         var nextStage;
                         switch (pixel.stage) {
                             case 2: nextStage = 4; break; //green
                             case 3: nextStage = 2; break; //red
                             case 4: nextStage = 3; break; //blue
                         }
-                        if (pixel.con && !newPixel.con && newPixel.stage === nextStage) { //transfer to adjacent pipe
+                        if (pixel.con && !newPixel.con && (newPixel.stage === nextStage || newPixel.element === "pipe_transmitter")) { //transfer to adjacent pipe
                             newPixel.con = pixel.con;
                             newPixel.con.x = newPixel.x;
                             newPixel.con.y = newPixel.y;
@@ -1037,14 +1037,14 @@ elements.destroyable_channel_pipe = {
                 var y = pixel.y+coord[1];
                 if (!isEmpty(x,y,true)) {
                     var newPixel = pixelMap[x][y];
-                    if ((newPixel.element === "destroyable_channel_pipe" && pixelMap[x][y].channel == pixel.channel) || newPixel.element === "bridge_pipe") {
+                    if ((newPixel.element === "destroyable_channel_pipe" && pixelMap[x][y].channel == pixel.channel) || newPixel.element === "bridge_pipe" || (newPixel.element === "pipe_transmitter" && pixelMap[x][y].channel == pixel.channel)) {
                         var nextStage;
                         switch (pixel.stage) {
                             case 2: nextStage = 4; break; //green
                             case 3: nextStage = 2; break; //red
                             case 4: nextStage = 3; break; //blue
                         }
-                        if (pixel.con && !newPixel.con && newPixel.stage === nextStage) { //transfer to adjacent pipe
+                        if (pixel.con && !newPixel.con && (newPixel.stage === nextStage || newPixel.element === "pipe_transmitter")) { //transfer to adjacent pipe
                             newPixel.con = pixel.con;
                             newPixel.con.x = newPixel.x;
                             newPixel.con.y = newPixel.y;
@@ -1097,7 +1097,7 @@ elements.destroyable_channel_pipe = {
     movable: false,
     canContain: true,
 },
-listPipes = ["pipe", "destroyable_pipe", "destroyable_e_pipe","channel_pipe","destroyable_channel_pipe","bridge_pipe","e_pipe"];
+listPipes = ["pipe", "destroyable_pipe", "destroyable_e_pipe","channel_pipe","destroyable_channel_pipe","bridge_pipe","e_pipe","pipe_transmitter"];
 elements.bridge_pipe = {
     color: "#414c4f",
     onSelect: function() {
@@ -1110,7 +1110,7 @@ elements.bridge_pipe = {
                 var x = pixel.x+coord[0];
                 var y = pixel.y+coord[1];
                 if (isEmpty(x,y)) {
-                    createPixel("brick",x,y);
+                    createPixel("pipe_wall",x,y);
                     pixelMap[x][y].color = pixelColorPick(pixel,"#808080");
                 }
             }
@@ -1161,7 +1161,7 @@ elements.bridge_pipe = {
                             case 3: nextStage = 2; break; //red
                             case 4: nextStage = 3; break; //blue
                         }
-                        if (pixel.con && !newPixel.con && newPixel.stage === nextStage) { //transfer to adjacent pipe
+                        if (pixel.con && !newPixel.con && (newPixel.stage === nextStage || newPixel.element === "pipe_transmitter")) { //transfer to adjacent pipe
                             newPixel.con = pixel.con;
                             newPixel.con.x = newPixel.x;
                             newPixel.con.y = newPixel.y;
@@ -1266,14 +1266,14 @@ elements.pipe.tick = function(pixel) {
                 var y = pixel.y+coord[1];
                 if (!isEmpty(x,y,true)) {
                     var newPixel = pixelMap[x][y];
-                    if (newPixel.element === "pipe" || newPixel.element === "bridge_pipe") {
+                    if (newPixel.element === "pipe" || newPixel.element === "bridge_pipe" || newPixel.element === "pipe_transmitter") {
                         var nextStage;
                         switch (pixel.stage) {
                             case 2: nextStage = 4; break; //green
                             case 3: nextStage = 2; break; //red
                             case 4: nextStage = 3; break; //blue
                         }
-                        if (pixel.con && !newPixel.con && newPixel.stage === nextStage) { //transfer to adjacent pipe
+                        if (pixel.con && !newPixel.con && (newPixel.stage === nextStage || newPixel.element === "pipe_transmitter")) { //transfer to adjacent pipe
                             newPixel.con = pixel.con;
                             newPixel.con.x = newPixel.x;
                             newPixel.con.y = newPixel.y;
@@ -1575,8 +1575,6 @@ elements.blackhole_storage = {
 	tick: function(pixel) {
 		if (!pixel.bhcontents){
 			pixel.bhcontents = [];
-		} else {
-			pixel.decidedcontent = pixel.bhcontents[Math.floor(Math.random()*pixel.bhcontents.length)];
 		}
 		 for (var i = 0; i < squareCoords.length; i++) {
                 var coord = squareCoords[i];
@@ -1588,15 +1586,15 @@ elements.blackhole_storage = {
 						pixel.bhcontents.push(otherPixel);
 						deletePixel(otherPixel.x, otherPixel.y);
 					}
-                } else if (pixel.charge && isEmpty(x,y) && pixel.decidedcontent){
-					var otherPixel = pixelMap[x][y];
-					pixel.decidedcontent.x = x;
-					pixel.decidedcontent.y = y;
-					delete pixel.decidedcontent.del;
-					otherPixel = pixel.decidedcontent;
-					currentPixels.push(pixel.decidedcontent);
-					pixel.bhcontents.splice(pixel.bhcontents.indexOf(pixel.decidedcontent), 1);
-					pixel.decidedcontent = pixel.bhcontents[Math.floor(Math.random()*pixel.bhcontents.length)];
+                } else if (pixel.charge && isEmpty(x,y) && pixel.bhcontents.length){
+					let randomindex = Math.floor(Math.random()*pixel.bhcontents.length);
+                    let releasedPixel = pixel.bhcontents[randomindex]
+                    pixel.bhcontents.splice(randomindex, 1)
+                    delete releasedPixel.del
+                    releasedPixel.x = x
+                    releasedPixel.y = y
+                    pixelMap[x][y] = releasedPixel
+                    currentPixels.push(releasedPixel)
 				}
             }
 	},
@@ -2249,6 +2247,21 @@ elements.gas_filter = {
 function weightedAverage(num1, num2, weight){
     return ((weight * num1)+((1-weight)*num2))
 }
+function getPixelColor(pixel){
+    let rgb2;
+    if(pixel.color.startsWith("#")) {
+        rgb2 = pixel.color.match(/[0-9A-F]{2}/ig).map(x => parseInt(x,16));
+    } else if(pixel.color.startsWith("hsl")) {
+        var hsl = pixel.color.match(/\d+/g);
+        hsl[0] = (hsl[0] / 360) % 360; if(hsl[0] < 0) { hsl[0]++ };
+        hsl[1] = Math.max(Math.min(hsl[1] / 100,1),0);
+        hsl[2] = Math.max(Math.min(hsl[2] / 100,1),0);
+        rgb2 = HSLtoRGB(hsl)
+    } else {
+        rgb2 = pixel.color.match(/\d+/g);
+    }
+    return rgb2
+}
 elements.dyer = {
     customColor: true,
     color: ["#ff0000","#ff8800","#ffff00","#00ff00","#00ffff","#0000ff","#ff00ff"],
@@ -2265,7 +2278,7 @@ elements.dyer = {
                 if (!(pixelMap[x][y].element == "dyer")){
                     var newPixel = pixelMap[x][y];
                     var rgb1 = pixel.color.match(/\d+/g);
-                    var rgb2 = newPixel.color.match(/\d+/g);
+                    var rgb2 = getPixelColor(newPixel)
                     // average the colors
                     var rgb = [
                         weightedAverage(parseInt(rgb1[0]), parseInt(rgb2[0]), 0.2),
@@ -2510,8 +2523,7 @@ elements.solid_diamond = {
         "l": "#A2DBF2",
         "S": "#BDF8FF"
     },
-    tempHigh: elements.diamond.tempHigh,
-    stateHigh: elements.diamond.stateHigh,
+    reactions: elements.diamond.reactions,
     state: "solid",
     density: elements.diamond.density,
     hardness: elements.diamond.hardness,
@@ -2629,6 +2641,7 @@ elements.spacedust_cola = {
     state: "liquid",
     reactions: {head: {elem1: null, chance: 0.02}},
     density: elements.tungsten.density,
+    isFood: true,
 }
 elements.spacedust = {
     color: ["#090033", "#0a0027", "#0a001b", "#0b000f", "#090033", "#0a0027", "#0a001b", "#0b000f", "#090033", "#0a0027", "#0a001b", "#0b000f", "#090033", "#0a0027", "#0a001b", "#0b000f", "#090033", "#0a0027", "#0a001b", "#0b000f", "#090033", "#0a0027", "#0a001b", "#0b000f", "#ffffff"],
@@ -2676,33 +2689,38 @@ elements.healing_serum = {
     },
     tick: function(pixel){
         if (pixel.waitReduce){pixel.wait -= 1}
-        if (pixel.wait == 0){
-            pixel.elementsSeen = {}
-        }
-        for (var i = 0; i < adjacentCoords.length; i++) {
-            var coord = adjacentCoords[i];
-            var x = pixel.x+coord[0];
-            var y = pixel.y+coord[1];
-            if (!isEmpty(x,y, true)){
-                if (!pixel.waitReduce){
-                    pixel.waitReduce = true
-                }
-                if (pixel.wait == 0){
-                    if (!pixel.elementsSeen[pixelMap[x][y].element] && !(["healing_serum", "bless", "experience"].includes(pixelMap[x][y].element))){
-                        pixel.elementsSeen[pixelMap[x][y].element] = 1
-                    } else if (!(["healing_serum", "bless", "experience"].includes(pixelMap[x][y].element))) {
-                        pixel.elementsSeen[pixelMap[x][y].element] += 1
+        if (!pixel.decidedPixel){
+            for (var i = 0; i < squareCoords.length; i++) {
+                var coord = squareCoords[i];
+                var x = pixel.x+coord[0];
+                var y = pixel.y+coord[1];
+                if (!isEmpty(x, y, true)){
+                    let otherPixel = pixelMap[x][y]
+                    if (otherPixel.element != "healing_serum"){
+                        pixel.decidedPixel = otherPixel
+                        pixel.waitReduce = true
+                        break;
                     }
                 }
             }
-            if (pixel.wait == 0){
-                if (Object.keys(pixel.elementsSeen).length == 0){
-                    deletePixel(pixel.x, pixel.y)
-                    return;
-                } else{
-                    changePixel(pixel, Object.keys(pixel.elementsSeen).reduce((a, b) => pixel.elementsSeen[a] > pixel.elementsSeen[b] ? a : b))
-                }
-            }
+        }
+        if (pixel.wait <= 0){
+            const { x, y, ...remainingProperties } = pixel.decidedPixel;
+            Object.assign(pixel, remainingProperties);
+            delete pixel.decidedPixel
+            return;
+        }
+    },
+    renderer: function(pixel, ctx){
+        // interpolate pixel color and decidedpixel's color (if it has one!)
+        if (pixel.decidedPixel){
+            var color1 = pixel.color.match(/\d+/g);
+            var color2 = getPixelColor(pixel.decidedPixel)
+            var ratio = pixel.wait/15
+            drawSquare(ctx, `rgb(${color1[0]*ratio+color2[0]*(1-ratio)},${color1[1]*ratio+color2[1]*(1-ratio)},${color1[2]*ratio+color2[2]*(1-ratio)})`, pixel.x, pixel.y)
+        }
+        else{
+            drawSquare(ctx, pixel.color, pixel.x, pixel.y)
         }
     }
 }
@@ -2721,7 +2739,7 @@ elements.ray_emitter = {
         if (rayans2 == "false"){rayStoppedByWalls = false} else {rayStoppedByWalls = true}
     },
     hoverStat: function(pixel){
-        return (pixel.rayElement.toUpperCase() || "unset") + ", " + (pixel.rayStoppedByWalls.toString().toUpperCase() || "unset")
+        return (pixel.rayElement|| "unset").toUpperCase()  + ", " + (pixel.rayStoppedByWalls || "unset").toString().toUpperCase()
     },
     tick: function(pixel){
         if (pixelTicks == pixel.start){
@@ -2784,7 +2802,7 @@ elements.ray = {
     movable: true,
     category: "special",
     hoverStat: function(pixel){
-        return pixel.life.toString() || "unset"
+        return (pixel.life || "unset").toString()
     },
     properties: {
         life: 10,
@@ -3062,6 +3080,15 @@ elements.ray_emitter.desc = "Emits a ray of the specified element in the opposit
 elements.specific_ray_emitter.desc = "Emits a ray of the specified element in a specific direction and a specific length."
 elements.blackhole_storage.desc = "Stores elements inside of itself. Can be released by shocking it."
 let pullOrPush = 1
+elements.anchor = {
+    color: "#020c20",
+    category: "machines",
+    behavior: behaviors.WALL,
+    desc: "Anchor; unpushable and unpullable by pistons.",
+    onSelect: function(){
+        logMessage("Unpushable and unpullable by pistons.")
+    }
+}
 elements.piston_ray_emitter = {
     color: "#143b5f",
     behavior: behaviors.WALL,
@@ -3104,7 +3131,9 @@ elements.piston_ray_emitter = {
                         var lx = lcoord[0];
                         var ly = lcoord[1];
                         if (!isEmpty(lx, ly, true)){
-                            tryMove(pixelMap[lx][ly], pCoord[0], pCoord[1], null, true)
+                            if (!(pixelMap[lx][ly].element == "anchor")){
+                                tryMove(pixelMap[lx][ly], pCoord[0], pCoord[1], null, true)
+                            }
                         }
                         pCoord[0] = lx;
                         pCoord[1] = ly;
@@ -3143,7 +3172,9 @@ function pistonEmit(pixel, i){
                         var lx = lcoord[0];
                         var ly = lcoord[1];
                         if (!isEmpty(lx, ly, true)){
-                            tryMove(pixelMap[lx][ly], pCoord[0], pCoord[1], null, true)
+                            if (!(pixelMap[lx][ly].element == "anchor")){
+                                tryMove(pixelMap[lx][ly], pCoord[0], pCoord[1], null, true)
+                            }
                         }
                         pCoord[0] = lx;
                         pCoord[1] = ly;
@@ -3754,6 +3785,189 @@ elements.hotter_sensor = {
             if (!isEmpty(x, y, true)){
                 if (pixelMap[x][y].temp > temp){
                     pixel.charge = 1
+                }
+            }
+        }
+    }
+}
+let pipe_transmitter_channelVar = 0;
+elements.pipe_transmitter = {
+    color: "#6e6250",
+    category: "machines",
+    movable: false,
+    canContain: true,
+    insulate: true,
+    onSelect: () => {
+        let newChannel = prompt("Enter the channel of this pipe transmitter. It will not work if you do multiple while paused.", pipe_transmitter_channelVar);
+        pipe_transmitter_channelVar = newChannel;
+    },
+    tick: (pixel) => {
+        if (!pixel.channel){
+            pixel.channel = pipe_transmitter_channelVar;
+        }
+        if (pixel.channel && pixel.con){
+            let valid = currentPixels.filter(pixel2 => 
+                pixel2.element == "pipe_receiver" && pixel2.channel === pixel.channel && !(pixel2.con)
+            )
+            if (valid.length){
+                console.log(valid)
+                shuffleArray(valid);
+                console.log(valid)
+                pixel.con.x = valid[0].x
+                pixel.con.y = valid[0].y
+                pixelMap[valid[0].x][valid[0].y].con = pixel.con
+                delete pixel.con
+            }
+        }
+    }
+}
+let pipe_receiver_channelVar = 0;
+elements.pipe_receiver = {
+    color: "#4d4b63",
+    category: "machines",
+    movable: false,
+    canContain: true,
+    insulate: true,
+    onSelect: () => {
+        let newChannel = prompt("Enter the channel of this pipe receiver. It will not work if you do multiple while paused.", pipe_receiver_channelVar);
+        pipe_receiver_channelVar = newChannel;
+    },
+    tick: (pixel) => {
+        if (!pixel.channel){
+            pixel.channel = pipe_receiver_channelVar;
+        }
+        if (pixel.channel && pixel.con){
+            // just scan neighbors for elements on the pipe list; transfer con to them. if its a type of channel pipe, also check if channel matches
+            for (i = 0; i < squareCoords.length; i++){
+                let x = squareCoords[i][0] + pixel.x;
+                let y = squareCoords[i][1] + pixel.y;
+                if (!isEmpty(x, y, true)){
+                    if (listPipes.includes(pixelMap[x][y].element)){
+                        if (["channel_pipe", "destroyable_channel_pipe"].includes(pixelMap[x][y].element)){
+                            if (pixelMap[x][y].channel == pixel.channel && !pixelMap[x][y].con){
+                                pixelMap[x][y].con = pixel.con;
+                                delete pixel.con;
+                                break;
+                            }
+                        } else {
+                            pixel.con.x = x;
+                            pixel.con.y = y;
+                            pixelMap[x][y].con = pixel.con;
+                            delete pixel.con;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+elements.false_vacuum_decay_bomb = {
+    color: "#3f0b0b",
+    category: "weapons",
+    behavior: behaviors.STURDYPOWDER,
+    tick: function(pixel){
+        if (!isEmpty(pixel.x, pixel.y+1, true)){
+            changePixel(pixel, "false_vacuum")
+        }
+    }
+}
+elements.false_vacuum = {
+    color: "#b41b1b",
+    category: "special",
+    hidden: true,
+    tick: function(pixel){
+        if (!pixel.timeAlive){
+            pixel.timeAlive = 0
+        }
+        pixel.color = `rgb(${180/(pixel.timeAlive+2)}, ${27/(pixel.timeAlive+2)}, ${27/(pixel.timeAlive+2)})`
+        if (pixel.timeAlive === 0){
+            for (i = 0; i < squareCoords.length; i++){
+                let x = squareCoords[i][0] + pixel.x;
+                let y = squareCoords[i][1] + pixel.y;
+                if (!isEmpty(x, y, true)){
+                    if (pixelMap[x][y].element !== "false_vacuum"){
+                        deletePixel(x, y)
+                        createPixel("false_vacuum", x, y)
+                    }
+                } else if (isEmpty(x, y)){
+                    createPixel("false_vacuum", x, y)
+                }
+            }
+        }
+        pixel.timeAlive ++;
+        if (pixel.timeAlive > 20){
+            deletePixel(pixel.x, pixel.y)
+            return
+        }
+    },
+    movable: false,
+    hardness: 1
+}
+let signInput = "Hello World!";
+elements.sign = {
+    color: "#FFFFFF",
+    darkText: true,
+    category: "special",
+    onSelect: function(){
+        let signi = prompt("What text should the sign display?", signInput||"Hello World!")
+        signInput = signi;
+    },
+    renderer: function(pixel, ctx){
+        if (!pixel.sign){pixel.sign = signInput}
+    },
+    movable: false
+}
+elements.e_sign = {
+    color: "#f3ff88",
+    darkText: true,
+    category: "special",
+    movable: false,
+    onSelect: () => {
+        let signi = prompt("What text should the sign display?", signInput||"Hello World!")
+        signInput = signi;
+    },
+    renderer: function(pixel, ctx){
+        if (!pixel.sign){pixel.sign=signInput}
+    },
+    conduct: 1
+}
+renderPostPixel(function(ctx){
+    for (pixel of currentPixels){
+        if ((pixel.element == "sign") && pixel.sign){
+            ctx.font = `12pt Arial`
+            ctx.fillStyle = pixel.color;
+            ctx.fillText(pixel.sign, canvasCoord(pixel.x), canvasCoord(pixel.y))
+        } else if (pixel.element == "e_sign" && pixel.sign){
+            if (pixel.charge || pixel.chargeCD){
+                ctx.font = `12pt Arial`
+                ctx.fillStyle = pixel.color;
+                ctx.fillText(pixel.sign, canvasCoord(pixel.x), canvasCoord(pixel.y))
+            } else {
+                drawSquare(ctx, pixel.color, pixel.x, pixel.y)
+            }
+        }
+    }
+})
+let machinemodName = "nousersthings.js"
+elements.mod_dectector = {
+    color: "#54681d",
+    behavior: behaviors.WALL,
+    category: "machines",
+    movable: false,
+    excludeRandom: true,
+    onSelect: () => {
+        let newMod = prompt("What mod should this machine detect?", "nousersthings.js"||modName)
+        machinemodName = newMod
+    },
+    tick: (pixel) => {
+        if (!pixel.mod){pixel.mod = machinemodName}
+        if (enabledMods.includes("mods/" + pixel.mod)){
+            for (let i = 0; i < adjacentCoords.length; i++){
+                let x = adjacentCoords[i][0] + pixel.x;
+                let y = adjacentCoords[i][1] + pixel.y;
+                if (!isEmpty(x, y, true) && elements[pixelMap[x][y].element].conduct){
+                    pixelMap[x][y].charge = 1
                 }
             }
         }
