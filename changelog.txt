@@ -4,6 +4,256 @@ See sneak peaks for upcoming updates on the Discord: https://discord.gg/ejUc6YPQ
 
 A fancier version of this changelog can be found here: https://sandboxels.R74n.com/changelog
 
+[Version 1.12 - July 17, 2025 - Saves For All]
+    + Featured Saves tab
+    + Discord Saves tab
+        + Browse community-made saves from our server
+    + Lye, a reactive powder
+    + Invar, a dark metal alloy (Hidden)
+    + Streak View (Press 4)
+   [Steam Edition Changes]
+    + Workshop support
+        + Add and load community-made saves
+        + Publish saves for everyone to discover
+        + Save tagging support
+    + Rich Presence support for Discord and Steam Chat
+        + Show off your current element and canvas state
+    ~ Saves are stored in a new game data folder instead of slots
+    + Mods can be loaded from the game data folder for offline use
+        ~ Dependencies are currently not supported for local files
+    + "Open Data Folder" button in Settings
+    + Steam automatically selects supported languages
+    + Save author name will default to Steam username
+    - Hid "Clear Saves" button
+    ~ Version and element count are shown again
+   [Changes]
+    + Button click animations
+    + Corn has gravity
+    + Cloner elements can be set by clicking over them
+    + Dyes can be mixed into liquids
+    + Sand can be dyed into Color Sand
+    + Stained Glass can be made by melting Glass with certain metals
+    + Batteries are breakable
+    + Vaccine and Antidote can freeze
+    + Small amounts of Vaccine can be made by boiling Antibody
+    + Vaccine can be made by mixing Antibody with Sugar Water
+    + Cream can be turned into Yogurt
+    + Clay and Brick Rubble makes Clay Soil
+    + Slime rots Meat
+    + Glue turns Crumb into Bread
+    + Yeast ferments Wheat
+    + Vinegar-Ammonia reaction
+    + Bleach-Baking Soda reaction
+    + Blood bubbles before boiling
+    + Infection passively creates Plague
+    + Pool Water slowly breaks down DNA
+    + Distilling Oil with Hydrogen makes Sulfur and Water (Claus process)
+    + Greek Fire is made with Oil and Sap, instead of Sulfur
+    + Sulfur stains Silver
+    + Candy from freezing Honey or Molasses has a unique color
+    + Ember changes color when hitting elements with flame colors
+    + Plasma can heat existing pixels when placed over them
+    + Magnesium-Acid reaction produces Hydrogen
+    + Gold variants are immune to Acid
+    + Acid decomposes at extreme temperatures
+    + Ammonia decomposes at high temperatures
+    + Copper Sulfate reacts with other carbs like Sugar
+    + Molten Caustic Potash electrolysis
+    + Virus and Strange Matter ignore Pointer
+    + Neutrons radiate Glass Shards
+    + Cancer kills Homunculi
+    + Anesthesia and Alcohol Gas calm Humans
+    ~ Human will be selected when using Pick on Head or Body
+    ~ Tweaked Diamond formation
+    ~ Walls and Pipes don't change Light color
+    ~ God Ray is better at extinguishing fires
+    ~ Ember no longer produces Fire on its own
+    ~ Salt Water electrolysis produces Lye (Chloralkali process)
+    ~ Sodium-Water reaction produces Lye
+    ~ Improved Sodium-Acid reaction
+    ~ Potassium-Acid reaction is more violent
+    ~ Acid no longer deletes Smoke or Fire
+    ~ Gallium-Aluminum reaction is more destructive
+    ~ Supernovae create Mercury and Aluminum
+    ~ Antimatter no longer explodes when hitting the border
+    ~ Lightning no longer explodes when hitting the border on Void mode
+    ~ Uranium releases Radiation more consistently when falling
+    ~ Rats release Plague more consistently when falling
+    ~ Molten Stained Glass has colorful Fire
+    + Rainbow and Static affect the color of Fire
+    ~ Canvas will shrink dynamically to fit screen width
+    + Empty canvases will be reset automatically when window is resized
+    + Saves menu tabs
+    ~ Saves menu takes up more screen space
+    ~ Modded saves automatically reload the save and remove new mods after session
+    + Sandboxels will reload on canvas reset after changing mods
+    + TPS is restored after unloading a save
+    + Button to reload after adding or removing mods
+    ~ Currently-loaded save will be underscored in menu
+    ~ Saves keep track of standalone version (i.e. Steam)
+    ~ Save warnings use native Sandboxels prompts
+    ~ Reset Warning setting affects save loading popup on non-empty canvas
+    - Loading a save no longer changes your selected view
+    ~ 'Reset Scene' buttons in Settings now confirm before resetting
+    ~ Cursor color is affected by theme color
+    ~ Canvas Size and Worldgen settings automatically reset empty canvases
+    ~ Updated styling of bottom links
+    ~ Links are underlined when hovered over
+    ~ Prompts are closed when elements are deselected
+    ~ Confirm buttons for data reset prompts are red to show danger
+    ~ Entering an invalid TPS no longer resets to 30 TPS
+    ~ Recolored Gold
+    ~ Recolored Zinc
+    ~ Recolored Nickel
+    ~ Recolored Tungsten
+    ~ Recolored Sulfur
+    ~ Recolored Brass
+    ~ Recolored Sterling
+    ~ Recolored Solder
+    ~ Recolored Molten Aluminum and removed heat glow
+    ~ Recolored Molten Caustic Potash and removed Fire
+    ~ Recolored Soda made from Juice
+    ~ Poison, Radiation, God Ray, Aluminum, Insulation, Bead, and Color Sand display with dark text
+    ~ Prop tool can convert between boolean and number types
+    + Broth alias 'Soup'
+    + Jelly alias 'Jam'
+    + Soda alias 'Cola'
+    + Hard Yolk alias 'Fried Egg'
+    + Gunpowder alias 'Black Powder'
+   [Bug Fixes]
+    ~ Fixed: Enabled mods can be stuck behind input box
+    ~ Fixed: Flies and Bees get stuck on Loop border modes
+    ~ Fixed: Rock Wall and Bless can't be used as Image element
+    ~ Fixed: Screenshots don't include background color if it was never set
+    ~ Fixed: Corrupted save error messages don't appear
+    ~ Fixed: Large save canvases can go off-screen
+    ~ Fixed: Cheerful Mode setting button has old behavior
+    ~ Fixed: Cheerful Mode setting 'Refresh Page' button doesn't work
+    ~ Fixed: runEveryTick() runs even when paused
+    ~ Fixed: World gen replaces Destroyable border pixels with Wall
+    ~ Fixed: Random events and modded per-tick events don't happen when stepping ticks
+    ~ Fixed: Maximum cursor size doesn't fill entire canvas with odd widths
+    ~ Fixed: Unpaint tool removes fancy textures
+    ~ Fixed: Category buttons don't glow in Unlock as Discovered mode
+    ~ Fixed: Coolers and Freezers affect insulative elements
+    ~ Fixed: Lightning heats insulative elements
+    ~ Fixed: Dark element button text isn't triggered by buttonColor
+    ~ Fixed: Force-loaded mod dependencies don't load properly on Steam
+    ~ Fixed: Theme background doesn't affect entire page on Steam Edition
+   [Technical]
+    + New helper functions:
+        + getPixel(x, y) -> Pixel object or null
+        + tryCreate(element, x, y, replace?) -> Pixel object or null
+        + tryDelete(x, y) -> Pixel object or null
+    + 'onCollide' element property, called when the pixel moves into any other (function(pixel1,pixel2))
+    + 'onClicked' element property, called when the pixel is clicked on (function(pixel,element))
+    + 'skip' pixel property, skips simulation of the pixel
+    + 'RL' behavior rule, releases an element in any available space
+    + 'clear' view property for clearing the canvas layers, defaults to true
+    + modIsEnabled(str) function, checks only file names (e.g. "glow.js")
+    + promptChoose() for multiple-choice prompts
+    + promptDir() for direction-based prompts
+    ~ Debug console has been re-enabled on Steam Edition
+    ~ Pick and Erase tools are no longer hard-coded
+    ~ Sensor 'sense' property can take multiple comma-separated values
+    ~ Save version is now sb5
+
+[Version 1.11.2 - May 16, 2025 - Steam Release]
+    + Sandboxels is now on Steam! https://store.steampowered.com/app/3664820/Sandboxels/
+    + Theme color setting
+    + Destroyable border mode
+    + Support for Korean, Italian, Serbian, and Australian English
+   [Changes]
+    ~ Backgrounds of menus are blurred
+    ~ Solids are no longer affected by Void or Loop borders
+    ~ World gen is surrounded by Wall with Void or Loop borders
+    + Notice when window is resized for the first time
+    ~ Saves Menu, Mod Manager, Debug, and Reset settings use native Sandboxels prompts
+   [Bug Fixes]
+    ~ Fixed: Category buttons show underscores in names
+    ~ Fixed: World gen doesn't fill entire canvas horizontally
+    ~ Fixed: Elements dynamically added repeatedly aren't selectable
+   [Technical]
+    + Multiple mods can be added at once, separated by semicolon (;)
+    + 'locked' element property, will prevent selection when set to true
+    + 'fancy' view property, will allow rendering with Fancy Pixels off when set to false
+
+[Version 1.11.1 - April 1, 2025 - FOOLS-2-5]
+    + Border setting
+        + Void deletes pixels that touch the sides
+        + Loop teleports pixels that touch the sides
+    ~ Improved Thermal View now uses hottest and coldest pixels as bounds
+    + Finnish and Indonesian languages
+   [FOOLS]
+    + Element Modulator
+    + FOOLS Mode is back!
+    ~ Note: FOOLS features will disappear April 4th
+   [Changes]
+    + Keybind: Ctrl+O to load a save file
+    + Keybind: Ctrl+Shift+O to reload the last loaded save
+    + Flame test can be done on elements with fire colors
+    + Honey and Molasses freeze into Candy
+    + 'Golden Wind' Tornado variant
+    + Milk variants can be churned into Butter
+    + Udders can absorb certain liquids to produce Milk variants
+    + Cheese can be made with Cream
+    + Soda foam has a unique color
+    + Candy dissolves in Water
+    + Void is insulative
+    + Bless stops panic in Humans
+    + Gunpowder explodes when shocked
+    + Ozone can cure Infection
+    + Dust and Ash dirty Seltzer
+    + Calcium can react with Steam
+    + Magnesium reacts with Water and Steam
+    + Sponges can release Water absorbed from soils
+    + Sponges separate Water variant contents
+    + Primordial Soup can freeze
+    + Positrons shock Antimatter
+    ~ Antimatter no longer explodes when touching Cloners
+    ~ Thermite burns into Molten Iron
+    + Acid stains Silver
+    ~ Tweaked Acid-Potassium reaction
+    ~ Frogs have a unique egg color
+    ~ Molten Rad Glass is greener
+    ~ Recolored Pilk Cheese
+    ~ Bless removes Filler, Lattice, Vertical, and Horizontal
+    ~ Copper Sulfate is no longer flammable
+    + Copper Sulfate produces Poison Gas when burned
+    + Baking Soda alias 'Sodium Bicarbonate'
+    + Cellulose alias 'Paper Paste'
+    + Cyanide alias 'Hydrogen Cyanide'
+    + Acid Gas alias 'Hydrochloric Acid Gas'
+    + Adobe alias 'Mud Brick'
+    + Saves can keep Limitless Mode if settings are included
+    ~ Saves no longer update cursor size
+    + Partial translations for Dutch, Korean, Italian, Serbian, and Emoji
+    ~ Halacae translations completed
+    ~ Prompt inputs no longer allow autocomplete
+   [Bug Fixes]
+    ~ Fixed: Half-pixels on the edges of smaller canvases
+    ~ Fixed: LEDs can create ghost pixels when absorbing Light
+    ~ Fixed: Eggs break when placed with Drag tool
+    ~ Fixed: Frozen Yogurt variants don't retain color when melting
+    ~ Fixed: Frozen elements aren't generated properly when no state is present
+    ~ Fixed: Tea and Coffee start boiling when placed manually
+    ~ Fixed: Duplicate mods can be added
+    ~ Fixed: Portals can't teleport pixels being dragged
+    ~ Fixed: Embers are never deleted when Burning is disabled
+    ~ Fixed: Mix tool can be used on ghost pixels
+    ~ Fixed: Saves can set cursor size to impossible sizes
+    ~ Fixed: colorOn isn't applied by reactions
+   [Technical]
+    + Mod dependency system, see dependency_test.js for more info
+    + Elements can be added dynamically with addElement()
+    + onAddElement(callback) function, called when element is added dynamically
+    + loadedMods array holds mods that have been loaded
+    + onSelect and onUnselect properties for custom views
+    + Portals display channel on hover
+    + 'mouseColor' setting
+    ~ Unknown is now in the Special category (Still hidden)
+    ~ Save version is now sb4 and includes new border settings
+
 [Version 1.11 - February 21, 2025 - Everyone's Update]
     + Portals!
         + Portal In and Portal Out elements
