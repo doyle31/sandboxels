@@ -76,12 +76,19 @@ runAfterAutogen(function(){
     for (var element in elements) {
         if (elements[element].category !== "tools") {
             elements[element].hidden = true;
-            elements[element].category = "inventory";
+            if (!settings.survival || Object.keys(settings.survival).length < 25) {
+                elements[element].category = "inventory";
+            }
         }
+        if (elements[element].onShiftSelect) delete elements[element].onShiftSelect;
     }
     for (var element in settings.survival) {
         if (!elements[element]) { continue; }
         if (elements[element].category === "tools") { continue; }
+        if (!elements[element].colorObject) {
+            elements[element].color = "#ffffff";
+            elements[element].colorObject = {"r": 255,"g": 255,"b": 255};
+        }
         createElementButton(element);
         document.getElementById("elementButton-"+element).innerHTML += "("+settings.survival[element]+")";
     }

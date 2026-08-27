@@ -1,7 +1,7 @@
 /* 
 Use intellisense for sandboxels modding here:
     to show availavle functions and show global variables
-    https://github.com/Cube14yt/sandboxels-types
+    https://github.com/R74nCom/sandboxels-types
 */
 
 
@@ -206,7 +206,7 @@ elements.molten_iron.reactions.sulfur = { elem1: "pyrite", elem2: null, chance: 
 elements.molten_iron.reactions.molten_sulfur = { elem1: "pyrite", elem2: null, chance: 0.25 }
 elements.molten_iron.reactions.sulfur_gas = { elem1: "pyrite", elem2: null, chance: 0.25 }
 
-elements.pyrite = {
+elements.cubesstuff_pyrite = {
     color: ["#d8c25e", "#bbaa49", "#998f3e"],
     alias: ["fools_gold", "Iron Disulfide"],
     density: 5000,
@@ -215,7 +215,7 @@ elements.pyrite = {
     grain: 0.4,
     state: "solid",
     behavior: behaviors.WALL,
-    category: "solids"
+    category: "deprecated"
 }
 
 elements.fire_extinguisher_powder = {
@@ -619,37 +619,6 @@ elements.glow_stick_ice = {
     state: "solid"
 }
 
-// Add TPS keybind
-keybinds["KeyT"] = function () {
-    tpsPrompt()
-}
-
-function addRowWhenReady() {
-    const table = document.getElementById("controlsTable");
-
-    if (!table) {
-        // Table not ready yet, try again in 100ms
-        setTimeout(addRowWhenReady, 100);
-        return;
-    }
-
-    // Table exists, add the row
-    const rowCount = table.rows.length;
-    const newRow = table.insertRow(rowCount - 1);
-
-    const cell1 = newRow.insertCell(0);
-    const cell2 = newRow.insertCell(1);
-
-    cell1.textContent = "Change TPS";
-    cell2.innerHTML = "<kbd>T</kbd>";
-
-    console.log("Row added successfully!");
-}
-
-// Start the process
-addRowWhenReady();
-
-
 elements.randomizer = {
     buttonColor: rainbowColor,
     excludeRandom: true,
@@ -789,41 +758,41 @@ elements.rgb_led = {
         "light": { charge1: 1, elem2: null },
         "liquid_light": { charge1: 1, elem2: null }
     },
-    category: "machines",
+    category: "deprecated",
     tempHigh: 1500,
     stateHigh: ["molten_glass", "molten_glass", "molten_glass", "molten_gallium"],
 
     onSelect: () => {
-        promptInput("Enter red value (0-255):", function (r_inp) {
-            r_inp = parseInt(r_inp);
+        promptInput("Enter red value (0-255):", function (old_r_inp) {
+            let r_inp = parseInt(old_r_inp);
             if (r_inp > 255 || r_inp < 0 || isNaN(r_inp)) {
-                logMessage("Red value is invalid, using default/last red value: " + r);
+                logMessage("Red value is invalid, using default/last red value: " + globals.red);
             } else {
                 globals.red = r_inp;
             }
 
-            promptInput("Enter green value (0-255):", function (g_inp) {
-                g_inp = parseInt(g_inp);
+            promptInput("Enter green value (0-255):", function (old_g_inp) {
+                let g_inp = parseInt(old_g_inp);
                 if (g_inp > 255 || g_inp < 0 || isNaN(g_inp)) {
-                    logMessage("Green value is invalid, using default/last green value: " + g);
+                    logMessage("Green value is invalid, using default/last green value: " + globals.green);
                 } else {
                     globals.green = g_inp;
                 }
 
-                promptInput("Enter blue value (0-255):", function (b_inp) {
-                    b_inp = parseInt(b_inp);
+                promptInput("Enter blue value (0-255):", function (old_b_inp) {
+                    let b_inp = parseInt(old_b_inp);
                     if (b_inp > 255 || b_inp < 0 || isNaN(b_inp)) {
-                        logMessage("Blue value is invalid, using default/last blue value: " + b);
+                        logMessage("Blue value is invalid, using default/last blue value: " + globals.blue);
                     } else {
                         globals.blue = b_inp;
                     }
-                }, "Blue Value", globals.blue); // optional default input
-            }, "Green Value", globals.green);
-        }, "Red Value", globals.red);
+                }, "Blue Value", String(globals.blue)); // optional default input
+            }, "Green Value", String(globals.green));
+        }, "Red Value", String(globals.red));
     },
 
     onPlace: (pixel) => {
-        var ledColor = RGBToHex([red, green, blue]);
+        var ledColor = RGBToHex([globals.red, globals.green, globals.blue]);
         pixel.color = ledColor;
     }
 };
@@ -1321,7 +1290,7 @@ elements.custom_bomb = {
 
         // If pixel is at the bottom or resting on a solid
         if (outOfBounds(pixel.x, pixel.y + 1) || (belowPixel && belowPixel.element !== "custom_bomb" && !isEmpty(pixel.x, pixel.y + 1) && belowPixel.element !== "fire" && belowPixel.element !== "smoke")) {
-            explodeAt(pixel.x, pixel.y, 10, explodeElem);
+            explodeAt(pixel.x, pixel.y, 10, globals.explodeElem);
             deletePixel(pixel.x, pixel.y);
         }
     }
@@ -1667,7 +1636,7 @@ elements.robot_body = {
 };
 
 // Robot creator element
-var mode = "Aimless"
+globals.mode = "Aimless"
 elements.robot = {
     color: "#b1b1b1",
     category: "machines",
@@ -1679,10 +1648,10 @@ elements.robot = {
             (choice) => {
                 if (choice === "Controlled" && isMobile) {
                     logMessage("Controlled mode doesn't work on mobile");
-                    mode = "Aimless";
+                    globals.mode = "Aimless";
                 } else {
-                    mode = choice || "Aimless";
-                    if (mode === "Controlled") {
+                    globals.mode = choice || "Aimless";
+                    if (globals.mode === "Controlled") {
                         logMessage("Controls: A/D to move and W to jump or (Not reccomended) ←/→ to move, and ↑ to jump");
                     }
                 }
@@ -1695,17 +1664,17 @@ elements.robot = {
         if (isEmpty(pixel.x, pixel.y - 1)) {
             createPixel("robot_head", pixel.x, pixel.y - 1);
             const head = getPixel(pixel.x, pixel.y - 1);
-            head.mode = mode;
+            head.mode = globals.mode;
             changePixel(pixel, "robot_body");
-            pixel.mode = mode;
+            pixel.mode = globals.mode;
         }
         // Try to create body below if above is blocked
         else if (isEmpty(pixel.x, pixel.y + 1)) {
             createPixel("robot_body", pixel.x, pixel.y + 1);
             const body = getPixel(pixel.x, pixel.y + 1);
-            body.mode = mode;
+            body.mode = globals.mode;
             changePixel(pixel, "robot_head");
-            pixel.mode = mode;
+            pixel.mode = globals.mode;
         }
         // Delete if no space
         else {
@@ -2017,7 +1986,7 @@ elements.indestructable_filter = {
     }
 }
 
-globals.glass_hole_expand = false
+globals.blackHoleExpand = false
 elements.black_hole = {
     color: "#111111",
     hardness: 1,
@@ -2105,7 +2074,7 @@ elements.black_hole = {
                     }
                 }
             }
-            if (globals.glass_hole_expand) {
+            if (globals.blackHoleExpand) {
                 for (var i = 0; i < adjacentCoords.length; i++) {
                     var x = pixel.x + adjacentCoords[i][0];
                     var y = pixel.y + adjacentCoords[i][1];
@@ -2127,10 +2096,10 @@ elements.black_hole = {
                     choice = "No"
                 }
                 if (choice == "Yes") {
-                    globals.glass_hole_expand = true
+                    globals.blackHoleExpand = true
                 }
                 else {
-                    globals.glass_hole_expand = false
+                    globals.blackHoleExpand = false
                 }
             }
         )
@@ -2374,6 +2343,7 @@ elements.cacao_stem = {
 
 
 // --- audio setup ---
+// @ts-ignore
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 function playNote(frequency, duration = 1, type = "sine", volume = 0.1) {
@@ -2738,13 +2708,18 @@ globals.rCircle = false
 globals.rRGBLed = false
 globals.rCustomBomb = false
 dependOn("betterSettings.js", () => {
+    // @ts-ignore
     var Reset = new SettingsTab("Reset");
+    // @ts-ignore
     var resetCircle = new Setting("Reset circle value and radius on reset", "Reset circle", settingType.BOOLEAN, false, defaultValue = false);
+    // @ts-ignore
     var resetRGBLed = new Setting("Reset RGB Led value on reset", "Reset RGB Led", settingType.BOOLEAN, false, defaultValue = false);
+    // @ts-ignore
     var resetCustomBomb = new Setting("Reset Custom Bomb value on reset", "Reset Custom Bomb", settingType.BOOLEAN, false, defaultValue = false);
     Reset.registerSettings("Reset", resetRGBLed)
     Reset.registerSettings("Reset", resetCircle)
     Reset.registerSettings("Reset", resetCustomBomb)
+    // @ts-ignore
     settingsManager.registerTab(Reset);
     runEveryTick(() => {
         if (resetCircle.value == true) {
@@ -3032,7 +3007,7 @@ elements.calculator = {
                     logMessage("Error")
                     return;
                 }
-                logMessage(Number(ans.toFixed(10)))
+                logMessage(ans.toFixed(10))
             }
             catch (e) {
                 logMessage("Invalid Characters Detected")
@@ -3065,8 +3040,9 @@ elements.random_teleporter = {
             } else pixel.fadeTo = "orange";
         }
 
-        for (var i = 0; i < squareCoords.length; i++) {
-            let coord = squareCoords[i];
+        shuffleArray(squareCoordsShuffle)
+        for (var i = 0; i < squareCoordsShuffle.length; i++) {
+            let coord = squareCoordsShuffle[i];
             let x = pixel.x + coord[0];
             let y = pixel.y + coord[1];
             if (!isEmpty(x, y)) {
@@ -3248,56 +3224,6 @@ elements.element_line = {
     }
 }
 
-function getSquareCoords(pixel) {
-    let x, y;
-    for (let i = 0; i < squareCoords.length; i++) {
-        let coord = squareCoords[i];
-        x = pixel.x + coord[0];
-        y = pixel.y + coord[1];
-    }
-    return { x, y }
-}
-
-function getAdjacentCoords(pixel) {
-    let x, y;
-    for (let i = 0; i < adjacentCoords.length; i++) {
-        x = pixel.x + adjacentCoords[i][0];
-        y = pixel.y + adjacentCoords[i][1];
-    }
-    return { x, y }
-}
-
-function getSquareCoordsShuffle(pixel) {
-    shuffleArray(squareCoordsShuffle);
-    let x, y;
-    for (var i = 0; i < squareCoordsShuffle.length; i++) {
-        var coord = squareCoordsShuffle[i];
-        x = pixel.x + coord[0];
-        y = pixel.y + coord[1];
-    }
-    return { x, y }
-}
-
-function getAdjacentCoordsShuffle(pixel) {
-    shuffleArray(adjacentCoordsShuffle)
-    let x, y
-    for (var i = 0; i < adjacentCoordsShuffle.length; i++) {
-        x = pixel.x + adjacentCoordsShuffle[i][0];
-        y = pixel.y + adjacentCoordsShuffle[i][1];
-    }
-    return { x, y }
-}
-
-function getScreenCoords() {
-    let coords = []
-    for (let x = 0; x <= width; x++) {
-        for (let y = 0; y <= height; y++) {
-            coords.push([x, y])
-        }
-    }
-    return coords
-}
-
 globals.replaceElem = "wood"
 elements.replace_all_of_element = {
     color: ["#35008a", "#000000"],
@@ -3325,5 +3251,51 @@ elements.replace_all_of_element = {
     }
 }
 
+/**
+ * 
+ * @param {(pixel: Pixel | undefined) => void} callback 
+ */
+function forEachPixel(callback) {
+    for (let x = 0; x <= width; x++) {
+        for (let y = 0; y <= height; y++) {
+            callback(pixelMap[x][y])
+        }
+    }
+}
 
-
+elements["🐔poolnoodle"] = {
+    category: "extras",
+    color: ["#7700ff", "#90ff90", "#ff0000", "#f700ff"],
+    buttonColor: rainbowColor,
+    behavior: behaviors.STURDYPOWDER,
+    density: 30,
+    properties: {
+        panic: 0,
+        panicTimer: 0
+    },
+    onClicked(pixel) {
+        pixel.panic = 1
+        pixel.panicTimer = 60
+    },
+    tick(pixel) {
+        if (Math.random() < 0.002) {
+            if (Math.random() <= 0.1 && (getPixel(pixel.x, pixel.y - 1) || outOfBounds(pixel.x, pixel.y + 1))) {
+                tryMove(pixel, pixel.x, pixel.y - 2) // 2 to coutneract gravity
+            }
+            Math.random() < 0.5
+                ? tryMove(pixel, pixel.x + 1, pixel.y)
+                : tryMove(pixel, pixel.x - 1, pixel.y);
+        }
+        if (!pixel.panic) return
+        if (pixel.panicTimer <= 0) {
+            pixel.panic = 0
+        }
+        pixel.panicTimer--
+        if (Math.random() <= 0.1 && (getPixel(pixel.x, pixel.y - 1) || outOfBounds(pixel.x, pixel.y + 1))) {
+            tryMove(pixel, pixel.x, pixel.y - 2) // same as above
+        }
+        if (Math.random() <= 0.7) {
+            Math.random() <= 0.5 ? tryMove(pixel, pixel.x + 1, pixel.y) : tryMove(pixel, pixel.x - 1, pixel.y)
+        }
+    }
+}

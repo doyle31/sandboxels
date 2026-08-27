@@ -16,7 +16,7 @@ window.addEventListener("load", ()=>{
 function main() {
   [...document.getElementsByClassName("elementButton")].forEach(button=>{
     let ele = elements[button.getAttribute("element")];
-    // if(ele === undefined || ele === null) return;
+    if(ele === undefined || ele === null) return;
     if(ele.desc) {
       button.setAttribute("data-tippy-content", `<div>${ele.desc}</div>`);
       if(ele.desc.includes("<!--INTERACTIVE-->")) {
